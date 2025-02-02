@@ -1,0 +1,35 @@
+{
+    "alerts": [
+        {
+            "name": "High Error Rate",
+            "description": "Monitors the error rate in the application to identify potential issues early.",
+            "query": "SELECT count(*) FROM Transaction WHERE error IS true",
+            "duration": "5",
+            "operator": "above",
+            "threshold": "5",
+            "priority": "critical",
+            "rationale": "An error rate above 5% may indicate systemic issues that need immediate attention[0]."
+        },
+        {
+            "name": "Integration Test Failure",
+            "description": "Monitors failures in integration tests, particularly for exception handling and resource access.",
+            "query": "SELECT count(*) FROM TestResults WHERE status = 'FAILURE'",
+            "duration": "10",
+            "operator": "above",
+            "threshold": "0",
+            "priority": "critical",
+            "rationale": "Frequent test failures might indicate critical failures in service logic, which can affect uptime[1][2]."
+        },
+        {
+            "name": "Unhandled Exception Alert",
+            "description": "Alert on occurrences of unhandled exceptions within the service endpoints.",
+            "query": "SELECT count(*) FROM Exception WHERE handler = 'NONE'",
+            "duration": "2",
+            "operator": "above",
+            "threshold": "0",
+            "priority": "warning",
+            "rationale": "Detecting routes that throw unhandled exceptions, ensuring they are appropriately logged and handled[3]."
+        }
+    ],
+    "policy_name": "PRISM PetClinic Alerts"
+}
