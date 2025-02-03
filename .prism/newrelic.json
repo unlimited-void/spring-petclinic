@@ -1,0 +1,45 @@
+{
+    "alerts": [
+        {
+            "name": "High Exception Rate",
+            "description": "Monitors if the rate of exceptions in the application exceeds the acceptable threshold, indicating potential stability issues.",
+            "query": "SELECT percentage(count(*), WHERE `error` IS not null) FROM Transaction WHERE appName = 'PetClinic'",
+            "operator": "above",
+            "duration": "5",
+            "threshold": "5",
+            "priority": "critical",
+            "rationale": "An exception rate above 5% could indicate systemic problems that need immediate attention to prevent further issues in the application."
+        },
+        {
+            "name": "High Memory Usage",
+            "description": "Monitors the memory usage of the application to prevent out-of-memory errors.",
+            "query": "SELECT average(memoryUsed) FROM SystemSample WHERE appName = 'PetClinic'",
+            "operator": "above",
+            "duration": "10",
+            "threshold": "75%",
+            "priority": "warning",
+            "rationale": "Maintain memory usage below 75% to ensure application stability and prevent performance degradation."
+        },
+        {
+            "name": "Database Query Performance",
+            "description": "Monitors the duration of database queries to identify performance bottlenecks.",
+            "query": "SELECT average(duration) FROM DatastoreSegment WHERE appName = 'PetClinic' AND database = 'PostgreSQL'",
+            "operator": "above",
+            "duration": "10",
+            "threshold": "200",
+            "priority": "critical",
+            "rationale": "Slow database queries can significantly degrade application performance, affecting user experience."
+        },
+        {
+            "name": "Slow HTTP Endpoint Response Time",
+            "description": "Tracks the response time of HTTP endpoints to ensure timely responses to client requests.",
+            "query": "SELECT average(responseTime) FROM HttpRequest WHERE appName = 'PetClinic'",
+            "operator": "above",
+            "duration": "5",
+            "threshold": "300",
+            "priority": "critical",
+            "rationale": "HTTP endpoints taking longer than 300ms could indicate potential bottlenecks or high load, impacting user experience."
+        }
+    ],
+    "policy_name": "PRISM:saurabrana/spring-petclinicAlerts"
+}
