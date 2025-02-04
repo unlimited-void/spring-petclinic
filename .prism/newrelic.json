@@ -1,0 +1,45 @@
+{
+    "alerts": [
+        {
+            "name": "High Exception Rate",
+            "description": "Monitors if the application triggers a high rate of exceptions, indicating possible issues in business logic or integrations.",
+            "query": "SELECT count(*) FROM TransactionError WHERE appName = 'PetClinicApp'",
+            "duration": "5",
+            "operator": "above",
+            "threshold": "100",
+            "priority": "critical",
+            "rationale": "A high exception rate could indicate potential flaws in the application\u2019s logic or connectivity issues that need immediate attention."
+        },
+        {
+            "name": "Performance Degradation",
+            "description": "Tracks if transaction response times increase significantly, indicating potential performance issues.",
+            "query": "SELECT average(duration) FROM Transaction WHERE appName = 'PetClinicApp'",
+            "duration": "5",
+            "operator": "above",
+            "threshold": "1000",
+            "priority": "warning",
+            "rationale": "An increase in response times suggests the application may be underperforming, affecting user experience."
+        },
+        {
+            "name": "Database Connection Issues",
+            "description": "Checks if there are connection issues with the database, which could disrupt application functionality.",
+            "query": "SELECT count(*) FROM Log WHERE message LIKE '%Database not available%' AND appName = 'PetClinicApp'",
+            "duration": "10",
+            "operator": "above",
+            "threshold": "0",
+            "priority": "critical",
+            "rationale": "Database connection issues can cause significant disruptions, leading to unavailability of the service."
+        },
+        {
+            "name": "Resource Usage Spike",
+            "description": "Monitors system resource usage to detect spikes that could indicate a need for scaling.",
+            "query": "SELECT average(cpuUsage), average(memoryUsage) FROM SystemSample WHERE appName = 'PetClinicApp'",
+            "duration": "5",
+            "operator": "above",
+            "threshold": "80",
+            "priority": "critical",
+            "rationale": "High CPU or memory usage may indicate the application is under stress or there are inefficient processes consuming resources."
+        }
+    ],
+    "policy_name": "PRISM:unlimited-void/spring-petclinicAlerts"
+}
