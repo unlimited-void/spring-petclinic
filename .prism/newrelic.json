@@ -1,34 +1,34 @@
 {
     "alerts": [
         {
-            "name": "Exception Trigger Detection",
-            "description": "Detects when the CrashController is triggered, resulting in an exception.",
-            "query": "SELECT count(*) FROM Transaction WHERE appName = 'PetClinic' AND path = '/oups' AND httpStatus = 500",
-            "operator": "above",
+            "name": "High Exception Rate",
+            "description": "Monitors if the exception rate in the CrashController exceeds the threshold, indicating possible application errors.",
+            "query": "SELECT count(*) FROM Transaction WHERE appName = 'PetClinic' AND error IS NOT NULL",
             "duration": "5",
-            "threshold": "0",
+            "operator": "above",
+            "threshold": "50",
             "priority": "critical",
-            "rationale": "A triggered exception might indicate improper handling in the application flow that needs immediate attention."
+            "rationale": "Frequent exceptions indicate potential system instability and require immediate attention to prevent user disruption."
         },
         {
-            "name": "High Error Rates",
-            "description": "Tracks transactions that result in 'HTTP 500' errors, indicating server-side issues.",
-            "query": "SELECT percentage(count(*), WHERE status = '500') FROM Transaction WHERE appName = 'PetClinic'",
+            "name": "Database Connection Failure",
+            "description": "Tracks the failure rate of database connections to detect possible connectivity issues.",
+            "query": "SELECT count(*) FROM Database WHERE appName = 'PetClinic' AND status = 'FAILURE'",
+            "duration": "5",
             "operator": "above",
-            "duration": "10",
+            "threshold": "10",
+            "priority": "critical",
+            "rationale": "A high number of database connection failures can lead to significant application downtime and should be resolved immediately."
+        },
+        {
+            "name": "Owner Update Errors",
+            "description": "Monitors the rate of errors when updating owner information to identify potential data validation issues.",
+            "query": "SELECT count(*) FROM Transaction WHERE appName = 'PetClinic' AND name = 'processUpdateOwnerForm' AND error IS NOT NULL",
+            "duration": "5",
+            "operator": "above",
             "threshold": "5",
-            "priority": "critical",
-            "rationale": "High error rates could significantly degrade user experience and imply the need for debugging."
-        },
-        {
-            "name": "Slow Get Requests",
-            "description": "Monitors performance of distinct service endpoints to detect slow GET requests.",
-            "query": "SELECT average(duration) FROM Transaction WHERE appName = 'PetClinic' AND httpMethod = 'GET'",
-            "operator": "above",
-            "duration": "5",
-            "threshold": "300",
             "priority": "warning",
-            "rationale": "GET requests taking too long denote potentially poor performance which users will notice."
+            "rationale": "Tracking these errors can help identify issues in data validation or incorrect input handling, improving application reliability."
         }
     ],
     "policy_name": "PRISM: unlimited-void/spring-petclinic Alerts"
