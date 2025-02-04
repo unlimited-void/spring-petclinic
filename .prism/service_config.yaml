@@ -10,10 +10,10 @@ version: "1.0"
 
 service:
   # Name of the service (Mandatory)
-  name: "Petclinic Service"
+  name: "Clinic Service"
 
   # Brief description of the service's purpose (Mandatory)
-  description: "This is a demo service for onboarding purposes."
+  description: "Clinic Service is a service that provides information about clinics."
 
   owner:
     # Team responsible for the service (Mandatory)
@@ -28,7 +28,7 @@ environments:
     # Name of the environment (e.g., "production", "staging") (Mandatory)
     name: "stage"
     # URL of the service in this environment (Optional)
-    url: "https://demo-service-stage.adobe.com"
+    url: "https://clinic-service-stage.adobe.com"
 
     monitoring:
       new_relic:
